@@ -1,15 +1,23 @@
 package hello.core.order;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
-import hello.core.member.MemoryMemberRepository;
 
 public class OrderServiceImpl implements OrderService {
 
-    private final MemberRepository memberRepository = new MemoryMemberRepository();
-    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    private final MemberRepository memberRepository;
+    private final DiscountPolicy discountPolicy;
+
+    // 역할에 의존한다!
+    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
+
+    // OCP, DIP 위반! 그렇게 보이지만 준수하지 않음! 역할 DiscountPolicy 에 의존하면, 구현체 FixDiscountPolicy에 의존하고 있다!
+//    private final DiscountPolicy discountPolicy = new FixDiscountPolicy();
+    // 이 문제를 해결하려면 누군가가 클라이언트인 OrderServiceImpl 에 DiscountPolicy 의 구현 객체를 대신 생성하고 주입해주어야 한다.
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
