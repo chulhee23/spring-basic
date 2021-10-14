@@ -2,6 +2,7 @@ package hello.core;
 
 import hello.core.discount.DiscountPolicy;
 import hello.core.discount.FixDiscountPolicy;
+import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
@@ -26,7 +27,9 @@ public class AppConfig {
 
     // 구현으로!
     private DiscountPolicy discountPolicy() {
-        return new FixDiscountPolicy();
+//        return new FixDiscountPolicy();
+        // 사용영역의 변경 없이, 구성 영역인 이곳만 바꿔서 수정 완료!
+        return new RateDiscountPolicy();
     }
 
     private MemberRepository memberRepository() {
